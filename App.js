@@ -60,7 +60,7 @@ const App = () => {
   }
 
   const zoomInText = () => {
-    setSizeMultiplier(1.2)
+    setSizeMultiplier(1.1)
   }
 
   const zoomOutText = () => {
@@ -85,7 +85,7 @@ const App = () => {
         </Pressable>) : (
         <>
         <View style={styles.container}>
-          <Text >Welcome, user : {deviceId}</Text>
+          <Text >Ahlan wa sahlan, user : {deviceId}</Text>
         </View>
         
           <Cart totalItems = {totalItems}/>
@@ -94,10 +94,10 @@ const App = () => {
               fontSize:24 * sizeMultiplier,
               padding:20,
               position: 'absolute',
-              left:130,
+              left:105,
               top:350
             }
-            }>Bismillah</Text>
+            }>Subhanallah</Text>
       
           
 
