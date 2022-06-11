@@ -8,16 +8,16 @@ const App = () => {
   const [progress, setProgress] = useState(0);
   const [intervalId, setIntervalId] = useState();  
   const [totalItems, setTotalItems] = useState(0)
-
+  const [deviceId, setDeviceId] = useState("")
   const [loadingText, setLoadingText] = useState("Loading, Please Wait...")
+  const [sizeMultiplier, setSizeMultiplier] = useState(1)
 
   useEffect(() => {
     loadingProgress(0)
   }, [])
 
   const loadingProgress = (currentProgress) => {
-
-    setLoadingText("Loading...")
+    setLoadingText(progress == 0 ? "Loading, Please Wait..." : "Oke lanjut lagi...")
     let progressTemp = currentProgress
     let interval = setInterval(() => {
       
@@ -26,6 +26,9 @@ const App = () => {
         console.log(progressTemp)
         progressTemp = 1
         clearInterval(interval)
+      } 
+        if (progressTemp > 0.8) {
+        setLoadingText("Sebentar lagi selesai...")
       }
         setProgress(progressTemp)
       
@@ -36,7 +39,7 @@ const App = () => {
   }
 
   const onLongPressed = () => {
-    setLoadingText("Paused")
+    setLoadingText("Loh loh berhenti!")
     clearInterval(intervalId)
   }
 
@@ -45,8 +48,6 @@ const App = () => {
   }
 
   const resetProgressBar = () => {
-    clearInterval(intervalId)
-    loadingProgress(0)
     setTotalItems(0)
   }
 
@@ -56,6 +57,14 @@ const App = () => {
 
   const decreaseItems = () => {
     if (totalItems > 0) setTotalItems(totalItems-1)
+  }
+
+  const zoomInText = () => {
+    setSizeMultiplier(1.2)
+  }
+
+  const zoomOutText = () => {
+    setSizeMultiplier(1)
   }
 
   return (
@@ -75,25 +84,46 @@ const App = () => {
           </View>
         </Pressable>) : (
         <>
+        <View style={styles.container}>
+          <Text >Welcome, user : {deviceId}</Text>
+        </View>
+        
           <Cart totalItems = {totalItems}/>
+          <Text style={
+            {
+              fontSize:24 * sizeMultiplier,
+              padding:20,
+              position: 'absolute',
+              left:130,
+              top:350
+            }
+            }>Bismillah</Text>
+      
+          
 
           <View 
             style={[styles.container, {flexDirection:'row'}]}>
-            <TouchableOpacity disabled={totalItems <= 0}  underlayColor='#fff' style={
+            <TouchableOpacity 
+              onPressIn={zoomInText}
+              onPressOut={zoomOutText}
+              disabled={totalItems <= 0}  underlayColor='#fff' style={
               totalItems > 0 ?
               [styles.button, styles.bgColorRed] : [styles.button, styles.bgColorGrey]
               } activeOpacity={0.8} onPress={decreaseItems}>
                 <Text style={{color:"white", fontSize: 32}}>-</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity style={[styles.button, styles.bgColorGreen]} activeOpacity={0.8} onPress={addItems}>
+            <TouchableOpacity 
+              onPressIn={zoomInText}
+              onPressOut={zoomOutText}
+              style={[styles.button, styles.bgColorGreen]} activeOpacity={0.8} onPress={addItems}>
                 <Text style={{color:"white", fontSize: 32}}>+</Text>
             </TouchableOpacity>
           </View>
 
           <View style={styles.container}>
             <TouchableOpacity style={styles.restartButton} activeOpacity={0.8} onPress={resetProgressBar}>
-              <Text style={{color:"white", fontSize:16}}>Restart</Text>
+              <Text style={{color:"white", fontSize:16}}>Reset</Text>
             </TouchableOpacity>
           </View>  
         </>
@@ -115,7 +145,7 @@ const styles = StyleSheet.create({
   },
   restartButton: {
     marginTop:24,
-    backgroundColor: "green",
+    backgroundColor: "orange",
     padding: 8,
     borderRadius:8,
   },
