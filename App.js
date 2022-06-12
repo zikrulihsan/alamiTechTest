@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import { Platform, Pressable, StyleSheet, Text, View, TouchableOpacity, NativeEventEmitter, NativeModules } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Platform, Pressable, StyleSheet, Text, View, TouchableOpacity, NativeModules } from 'react-native';
 import * as Progress from "react-native-progress";
-import { useEffect } from 'react/cjs/react.development';
 import Cart from './src/component/Cart';
 
 const App = () => {
@@ -109,7 +108,7 @@ const App = () => {
           <Text style={{fontSize:16, marginBottom:16}} >Ahlan wa sahlan,</Text>
           <Text>device id anda terdeteksi: </Text>
           <Text style={{fontWeight: "bold"}}>{deviceId}</Text>
-          <Text style={{fontSize:16, marginTop:32}}>Silahkan latihan belanja sambil Dzikir</Text>
+          <Text style={{fontSize:16, marginTop:32}}>Silahkan tambahkan pahala dzikr anda:</Text>
         </View>
 
         
