@@ -6,13 +6,13 @@ import {
 } from "react-native";
 import React, { useState } from 'react';
 
-import Icon from "react-native-vector-icons/Ionicons"
+import Icon from "react-native-vector-icons/EvilIcons"
 
 export default function Card(props) {
 
     return (
         <View style = {styles.container}>
-            <Icon name="ios-cart" size={150}/>
+            <Icon name="cart" size={150}/>
             { 
                 props.totalItems>0 ? 
                     (<View style={styles.roundedCartItem}>

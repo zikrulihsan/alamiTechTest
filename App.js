@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Pressable, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Platform, Pressable, StyleSheet, Text, View, TouchableOpacity, NativeEventEmitter, NativeModules } from 'react-native';
 import * as Progress from "react-native-progress";
 import { useEffect } from 'react/cjs/react.development';
-import Cart from './src/component/Cart'
+import Cart from './src/component/Cart';
 
 const App = () => {
   const [progress, setProgress] = useState(0);
@@ -14,7 +14,28 @@ const App = () => {
 
   useEffect(() => {
     loadingProgress(0)
+
+    if (Platform.OS !== "ios"){
+      fetchAndroidDeviceId()
+    } else {
+      fetchIosDeviceId()
+    }
   }, [])
+
+  const fetchIosDeviceId = async () => {
+    try {
+      var id = await NativeModules.IosCustomModule.getDeviceId();
+      setDeviceId(id)
+    } catch (e) {
+      console.log(e.message, e.code);
+    }
+  };
+  
+  const fetchAndroidDeviceId = async () => {
+    const id = await NativeModules.AlamiModule.getDeviceId()
+    setDeviceId(id)
+  }
+
 
   const loadingProgress = (currentProgress) => {
     setLoadingText(progress == 0 ? "Loading, Please Wait..." : "Oke lanjut lagi...")
@@ -80,22 +101,27 @@ const App = () => {
 
             <Progress.Bar color={"blue"} progress={progress} width={300} height={10}></Progress.Bar>
 
-            <Text style={{marginTop:32}}> Press and hold to pause loading, release to resume</Text>
+            <Text style={{marginTop:32}}>Press and hold to pause loading, release to resume</Text>
           </View>
         </Pressable>) : (
         <>
         <View style={styles.container}>
-          <Text >Ahlan wa sahlan, user : {deviceId}</Text>
+          <Text style={{fontSize:16, marginBottom:16}} >Ahlan wa sahlan,</Text>
+          <Text>device id anda terdeteksi: </Text>
+          <Text style={{fontWeight: "bold"}}>{deviceId}</Text>
+          <Text style={{fontSize:16, marginTop:32}}>Silahkan latihan belanja sambil Dzikir</Text>
         </View>
+
         
           <Cart totalItems = {totalItems}/>
           <Text style={
             {
+              marginTop: 16,
               fontSize:24 * sizeMultiplier,
               padding:20,
               position: 'absolute',
-              left:105,
-              top:350
+              left:110,
+              top:400
             }
             }>Subhanallah</Text>
       
