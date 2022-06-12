@@ -96,7 +96,7 @@ const App = () => {
           onPressOut={onPressOut}
           >
           <View style={styles.logBox}>
-            <Text style={{marginBottom:16, fontSize:32, color: "black"}}>{loadingText}</Text>
+            <Text style={{marginBottom:16, fontSize:16, color: "black"}}>{loadingText}</Text>
 
             <Progress.Bar color={"blue"} progress={progress} width={300} height={10}></Progress.Bar>
 
